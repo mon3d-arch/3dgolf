@@ -6,114 +6,221 @@
 }
 
 body {
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-    background-color: #f4f4f9;
-    color: #333;
-    overflow: hidden; /* 스크롤바 제거 */
+    margin: 0;
+    font-family: 'Inter', sans-serif;
+    background-color: #f0f0f0;
 }
 
-#container {
+/* 데스크톱 레이아웃 (기본 설정) */
+.container {
     display: flex;
-    width: 100vw;
     height: 100vh;
+    width: 100vw;
 }
 
-/* 3D 뷰어 영역 */
-#viewer-container {
-    flex-grow: 1; /* 남은 공간을 모두 차지 */
-    height: 100%;
+/* 3D 뷰어 영역 - 창 너비의 70% 차지 */
+.viewer-container {
+    flex-basis: 70%;
+    background-color: #dddddd;
+    position: relative;
 }
 
-/* 좌우 패널 공통 스타일 */
-#options-panel, #summary-panel {
-    width: 300px;
+#trophy-viewer {
+    width: 100% !important;
+    height: 100% !important;
+    display: block;
+}
+
+#loading-spinner {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    border: 4px solid rgba(0, 0, 0, 0.1);
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    border-left-color: #09f;
+    animation: spin 1s ease infinite;
+    z-index: 10;
+}
+
+#status-message {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: rgba(0, 0, 0, 0.5);
+    color: white;
+    padding: 10px 20px;
+    border-radius: 5px;
+    text-align: center;
+    font-size: 1.1em;
+    z-index: 10;
+}
+
+@keyframes spin {
+    0% { transform: translate(-50%, -50%) rotate(0deg); }
+    100% { transform: translate(-50%, -50%) rotate(360deg); }
+}
+
+/* 컨트롤 패널 영역 - 창 너비의 30% 차지, 스크롤 가능 */
+.controls-container {
+    flex-basis: 30%;
     padding: 20px;
     background-color: #ffffff;
-    box-shadow: 0 0 10px rgba(0,0,0,0.05);
     overflow-y: auto;
-    display: flex;
-    flex-direction: column;
+    border-left: 1px solid #ccc;
 }
 
-#options-panel {
-    border-right: 1px solid #e0e0e0;
-}
-#summary-panel {
-    border-left: 1px solid #e0e0e0;
-}
-
-
-h2 {
-    font-size: 1.2rem;
-    padding-bottom: 10px;
+.controls-container h2 {
+    text-align: center;
     margin-bottom: 20px;
+    color: #333;
+}
+
+.control-section {
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 15px;
+    margin-bottom: 20px;
+}
+
+.control-section h3 {
+    margin-top: 0;
+    margin-bottom: 15px;
+    color: #555;
     border-bottom: 2px solid #eee;
+    padding-bottom: 5px;
 }
 
+/* 한 줄 레이아웃을 위한 Flexbox 스타일 */
 .option-group {
-    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    margin-bottom: 15px;
+    flex-wrap: wrap; /* 모바일에서 자동으로 줄바꿈 */
 }
 
 .option-group label {
-    display: block;
-    font-weight: 600;
-    margin-bottom: 8px;
-    font-size: 0.9rem;
+    flex-shrink: 0;
+    margin-right: 10px;
+    width: 90px;
+    font-weight: bold;
 }
 
-/* 입력 컨트롤 스타일 */
-input[type="color"], input[type="text"], select {
+.option-group select, .option-group input[type="color"], .option-group textarea {
+    flex-grow: 1;
+    min-width: 0;
+}
+
+.option-group select, .option-group textarea, #engraving-text {
     width: 100%;
     padding: 8px;
-    border-radius: 5px;
     border: 1px solid #ccc;
-    font-size: 1rem;
+    border-radius: 4px;
+    font-size: 1em;
 }
 
-input[type="color"] {
-    height: 40px;
-    padding: 5px;
+#engraving-text {
+    resize: vertical;
 }
 
-/* 우측 패널 */
-.price-section {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    font-size: 1.1rem;
-    margin-bottom: 20px;
+/* 가격 테이블 스타일 */
+#price-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 15px;
+    display: none; /* 초기에는 숨기기 */
 }
 
-.price-value {
+#price-table th, #price-table td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+}
+
+#price-table th {
+    background-color: #f2f2f2;
+}
+
+.total-price {
+    font-size: 1.2em;
     font-weight: bold;
-    font-size: 1.5rem;
-    color: #d9534f;
+    text-align: right;
 }
 
 #order-button {
     width: 100%;
-    padding: 15px;
-    font-size: 1.1rem;
-    font-weight: bold;
-    color: #fff;
+    padding: 12px;
     background-color: #007bff;
+    color: white;
     border: none;
-    border-radius: 5px;
+    border-radius: 4px;
+    font-size: 1.1em;
     cursor: pointer;
-    transition: background-color 0.2s;
+    margin-top: 20px;
 }
 
 #order-button:hover {
     background-color: #0056b3;
 }
 
+/* 주문 데이터 출력 영역 스타일 */
 #order-data-output {
     margin-top: 20px;
     padding: 10px;
-    background-color: #f8f9fa;
-    border: 1px solid #e0e0e0;
-    border-radius: 5px;
-    font-size: 0.8rem;
+    border: 1px solid #ccc;
+    background-color: #f9f9f9;
+}
+
+#order-data-output pre {
+    white-space: pre-wrap;
     word-wrap: break-word;
-    height: 100%;
+    font-family: monospace;
+    background: #eee;
+    padding: 10px;
+    border-radius: 4px;
+}
+
+#order-data-output img {
+    max-width: 100%;
+    height: auto;
+    border: 1px solid #ccc;
+    margin-top: 10px;
+}
+
+/* ==================================== */
+/* 모바일 최적화 (뷰포트 너비 768px 이하) */
+/* ==================================== */
+@media (max-width: 768px) {
+    .container {
+        flex-direction: column;
+        height: 100vh;
+    }
+
+    .viewer-container {
+        height: 50vh;
+        flex-basis: auto;
+    }
+
+    .controls-container {
+        height: 50vh; /* 남은 공간을 채움 */
+        flex-basis: auto;
+        overflow-y: auto; /* 컨트롤 패널만 스크롤되도록 설정 */
+    }
+
+    .option-group {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    
+    .option-group label {
+        margin-right: 0;
+        margin-bottom: 5px;
+        width: auto;
+    }
+}
+.hidden {
+    display: none !important;
 }

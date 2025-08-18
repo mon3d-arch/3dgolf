@@ -3,85 +3,116 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>3D 홀인원 트로피</title>
-    <style>
-        body { margin: 0; padding: 0; font-family: sans-serif; background-color: #f0f0f0; display: flex; }
-        #viewer-container { width: 70vw; height: 100vh; background-color: #fff; }
-        #controls-container { width: 30vw; height: 100vh; padding: 20px; box-sizing: border-box; overflow-y: auto; background-color: #eee; }
-        .control-group { margin-bottom: 15px; }
-        .control-group label, .control-group h3 { display: block; margin-bottom: 5px; font-weight: bold; }
-        .control-group select, .control-group input[type="color"], .control-group input[type="text"], .control-group textarea, .control-group input[type="number"] { width: 100%; padding: 8px; box-sizing: border-box; }
-        .control-group textarea { resize: vertical; height: 100px; }
-        .button-group button { width: 100%; padding: 10px; margin-top: 10px; font-size: 16px; cursor: pointer; }
-        #order-data-output { margin-top: 20px; padding: 15px; background-color: #fff; border: 1px solid #ccc; white-space: pre-wrap; word-wrap: break-word; }
-        #order-data-output img { max-width: 100%; height: auto; display: block; margin-top: 10px; }
-    </style>
+    <title>3D 골프 트로피 커스터마이징</title>
+    <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
 
-    <div id="viewer-container"></div>
-
-    <div id="controls-container">
-        <h2>홀인원 트로피 커스텀</h2>
-
-        <div class="control-group">
-            <label for="figure-pose">피규어 자세</label>
-            <select id="figure-pose">
-                <option value="swing">스윙</option>
-                <option value="putt">퍼팅</option>
-            </select>
+    <div class="container">
+        <div class="viewer-container" id="viewer-container">
+            <canvas id="trophy-viewer"></canvas>
+            <div id="loading-spinner"></div>
+            <div id="status-message"></div>
         </div>
 
-        <hr>
+        <div class="controls-container" id="controls-container">
+            <h2>3D 골프 트로피 커스터마이징</h2>
 
-        <div class="control-group">
-            <h3>의상 색상</h3>
-            <label for="shirt-color">상의 색상</label>
-            <input type="color" id="shirt-color" value="#FFFFFF">
-            <label for="pants-color">하의 색상</label>
-            <input type="color" id="pants-color" value="#000000">
-        </div>
+            <div class="control-section">
+                <h3>1. 트로피 형태</h3>
+                <div class="option-group">
+                    <label>기본 형태:</label>
+                    <select id="trophy-shape">
+                        <option value="normal">일반형</option>
+                        <option value="logo">로고형</option>
+                    </select>
+                </div>
+                <div class="option-group">
+                <label>용도:</label>
+                <select id="trophy-purpose">
+                    <option value="hole-in-one">홀인원</option>
+                    <option value="eagle">이글</option>
+                    <option value="single">싱글</option>
+                    <option value="direct-input">직접입력</option>
+                </select>
+            </div>
+            </div>
 
-        <hr>
-
-        <div class="control-group">
-            <h3>받침대 설정</h3>
-            <label for="pedestal-color">받침대 색상</label>
-            <input type="color" id="pedestal-color" value="#5d5d5d">
+            <div class="control-section">
+                <h3>2. 피규어 커스터마이징</h3>
+                <div class="option-group">
+                    <label>포즈 선택:</label>
+                    <select id="figure-pose">
+                        </select>
+                </div>
+                <div class="option-group">
+                    <label>셔츠 색상:</label>
+                    <input type="color" id="shirt-color" value="#1a5a9e">
+                </div>
+                <div class="option-group">
+                    <label>바지 색상:</label>
+                    <input type="color" id="pants-color" value="#3a3a3a">
+                </div>
+                <div class="option-group">
+                    <label>클럽 선택:</label>
+                    <select id="club-selection">
+                        <option value="iron">아이언</option>
+                        <option value="driver">드라이버</option>
+                    </select>
+                </div>
+            </div>
             
-            <label for="pedestal-text">문구 (줄바꿈 가능)</label>
-            <textarea id="pedestal-text">WINNER
-2023</textarea>
-            
-            <label for="pedestal-text-color">문구 색상</label>
-            <input type="color" id="pedestal-text-color" value="#FFFFFF">
-            
-            <label for="pedestal-text-size">문구 크기</label>
-            <input type="number" id="pedestal-text-size" value="0.9" step="0.1" min="0.1">
-        </div>
+            <div class="control-section">
+                <h3>3. 문구 및 받침대</h3>
+                <div class="option-group">
+                    <label>문구:</label>
+                    <textarea id="engraving-text" rows="5"></textarea>
+                </div>
+                <div class="option-group">
+                    <label>글자 색상:</label>
+                    <input type="color" id="pedestal-text-color" value="#ffffff">
+                </div>
+            </div>
 
-        <hr>
+            <div class="control-section">
+                <h3>4. 크기 및 가격</h3>
+                <div class="option-group">
+                    <label>크기:</label>
+                    <select id="trophy-size">
+                        </select>
+                </div>
+                <table id="price-table">
+                    <thead>
+                        <tr>
+                            <th>크기</th>
+                            <th>가격</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        </tbody>
+                </table>
+                <div class="total-price">
+                    <strong>총 가격:</strong> <span id="final-price">0원</span>
+                </div>
+            </div>
 
-        <div class="button-group">
-            <button id="toggle-pedestal-button">받침대 숨기기/보이기</button>
-            <button id="toggle-grass-button">잔디 숨기기/보이기</button>
             <button id="order-button">주문하기</button>
-        </div>
 
-        <div id="order-data-output">
-            <strong>주문 옵션 (JSON):</strong>
-            <pre>{"pose":"swing","shirtColor":"#ffffff","pantsColor":"#000000","pedestalColor":"#5d5d5d","text":"WINNER\n2023"}</pre>
-            <strong>미리보기 이미지:</strong><br>
-            <img src="" style="width:100%; border: 1px solid #ccc;"/>
+            <div id="order-data-output">
+                <strong>주문 옵션 (JSON):</strong>
+                <pre></pre>
+                <strong>미리보기 이미지:</strong><br>
+                <img src="" alt="주문 미리보기" style="width:100%; border: 1px solid #ccc;"/>
+            </div>
         </div>
     </div>
-
+    
     <script type="importmap">
         {
-            "imports": {
-                "three": "https://unpkg.com/three@0.149.0/build/three.module.js",
-                "three/addons/": "https://unpkg.com/three@0.149.0/examples/jsm/"
-            }
+          "imports": {
+            "three": "https://cdn.jsdelivr.net/npm/three@0.149.0/build/three.module.js",
+            "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.149.0/examples/jsm/"
+          }
         }
     </script>
     <script type="module" src="js/main.js"></script>
