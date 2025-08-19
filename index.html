@@ -21,44 +21,48 @@
             <div class="control-section">
                 <h3>1. 트로피 형태</h3>
                 <div class="option-group">
-                    <label>기본 형태:</label>
+                    <label>트로피 형태:</label>
                     <select id="trophy-shape">
                         <option value="normal">일반형</option>
                         <option value="logo">로고형</option>
                     </select>
                 </div>
-                <div class="option-group">
-                <label>용도:</label>
-                <select id="trophy-purpose">
-                    <option value="hole-in-one">홀인원</option>
-                    <option value="eagle">이글</option>
-                    <option value="single">싱글</option>
-                    <option value="direct-input">직접입력</option>
-                </select>
-            </div>
+                <div class="option-group two-columns">
+                    <div>
+                        <label>용도:</label>
+                        <select id="trophy-purpose">
+                            <option value="hole-in-one">홀인원</option>
+                            <option value="eagle">이글</option>
+                            <option value="single">싱글</option>
+                            <option value="direct-input">직접입력</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label for="club-selection">클럽 선택:</label>
+                        <select id="club-selection">
+                            <option value="iron">아이언</option>
+                            <option value="driver">드라이버</option>
+                        </select>
+                    </div>
+                </div>
             </div>
 
             <div class="control-section">
-                <h3>2. 피규어 커스터마이징</h3>
+                <h3>2. 포즈와 색상 선택</h3>
                 <div class="option-group">
                     <label>포즈 선택:</label>
                     <select id="figure-pose">
                         </select>
                 </div>
-                <div class="option-group">
-                    <label>셔츠 색상:</label>
-                    <input type="color" id="shirt-color" value="#1a5a9e">
-                </div>
-                <div class="option-group">
-                    <label>바지 색상:</label>
-                    <input type="color" id="pants-color" value="#3a3a3a">
-                </div>
-                <div class="option-group">
-                    <label>클럽 선택:</label>
-                    <select id="club-selection">
-                        <option value="iron">아이언</option>
-                        <option value="driver">드라이버</option>
-                    </select>
+                <div class="option-group two-columns">
+                    <div>
+                        <label>셔츠 색상:</label>
+                        <input type="color" id="shirt-color" value="#1a5a9e">
+                    </div>
+                    <div>
+                        <label>바지 색상:</label>
+                        <input type="color" id="pants-color" value="#3a3a3a">
+                    </div>
                 </div>
             </div>
             
