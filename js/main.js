@@ -11,18 +11,18 @@ const scene = new THREE.Scene();
 scene.background = new THREE.Color(0xeeeeee);
 const loadingSpinner = document.getElementById('loading-spinner');
 const statusMessage = document.getElementById('status-message');
-const engravingTextarea = document.getElementById('engraving-text'); // textarea 엘리먼트 가져오기
+const engravingTextarea = document.getElementById('engraving-text');
 
 let camera, renderer, controls;
 let model;
 const modelParts = {};
 let currentTextMesh;
-let fontFirstLine; // 첫 번째 줄 폰트
-let fontOtherLines; // 두 번째 줄부터 폰트
+let fontFirstLine;
+let fontOtherLines;
 let newGrassBaseMesh;
-let currentSpecialModel; // 특수 모델 관리를 위한 단일 변수
 let modelCache = {};
-let fixedFirstLine = ''; // 수정 불가능한 첫 번째 줄을 저장할 변수
+let fixedFirstLine = '';
+let isSpecialModelLoading = false; // 새로운 특수 모델 로딩 상태 변수
 
 // ========== 2. Load and Initialization Functions ==========
 function init() {
@@ -402,6 +402,13 @@ function updateTrophyText() {
 
 
 function loadSpecialModel(modelName) {
+    if (isSpecialModelLoading) {
+        console.warn("Special model is already loading. Skipping new load request.");
+        return;
+    }
+    
+    isSpecialModelLoading = true;
+
     loader.load(
         modelName,
         (gltf) => {
@@ -412,6 +419,7 @@ function loadSpecialModel(modelName) {
                 model.add(loadedModel);
             } else {
                 console.warn("Main model not loaded. Skipping adding special model.");
+                isSpecialModelLoading = false;
                 return;
             }
 
@@ -444,10 +452,12 @@ function loadSpecialModel(modelName) {
                     grassCenter.z
                 );
             }
+            isSpecialModelLoading = false;
         },
         undefined,
         (error) => {
             console.error(`An error happened loading the ${modelName} model`, error);
+            isSpecialModelLoading = false;
         }
     );
 }
@@ -636,7 +646,7 @@ document.getElementById('trophy-shape').addEventListener('change', (event) => {
     updateSizeOptions();
     const currentPose = document.getElementById('figure-pose').value;
     loadModel(event.target.value, currentPose);
-    handlePurposeChange(); // 'trophy-shape' 변경 시에도 용도에 맞게 텍스트/홀인원 모델을 업데이트
+    handlePurposeChange();
 });
 
 document.getElementById('trophy-purpose').addEventListener('change', handlePurposeChange);

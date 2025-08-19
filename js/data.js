@@ -1,10 +1,10 @@
 export const priceData = {
-    'horizontal': {
+    'normal': {
         '20cm': '350,000원',
         '25cm': '450,000원',
         '30cm': '550,000원'
     },
-    'vertical': {
+    'logo': {
         '20cm': '450,000원',
         '25cm': '550,000원',
         '30cm': '650,000원'
